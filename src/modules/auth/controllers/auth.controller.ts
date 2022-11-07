@@ -30,7 +30,7 @@ export class AuthController {
   @ApiOperation({
     operationId: "userRegister",
     description: "Operation for user to register with email password",
-    summary: "User register with email and password",
+    summary: "User register with username and password",
   })
   @ApiResponse({
     status: HttpStatus.CREATED,
