@@ -28,16 +28,18 @@ async function bootstrap() {
     },
     customSiteTitle: "Temperature Control service",
   });
-  await app.listen(process.env.APP_PORT);
+  await app.listen(process.env.PORT || 3003);
 }
 
 bootstrap()
   .then(() => {
     console.info(
-      `App is running on port ${process.env.APP_PORT} with baseURL=${process.env.APP_BASE_URL}`
+      `App is running on port ${process.env.PORT} with baseURL=${process.env.APP_BASE_URL}`
     );
     console.info(
-      `App swagger document is running on port ${process.env.APP_PORT} with baseURL=${process.env.DOC_BASE_URL}`
+      `App swagger document is running on port ${
+        process.env.PORT || 3003
+      } with baseURL=${process.env.DOC_BASE_URL}`
     );
   })
   .catch((e) => {
