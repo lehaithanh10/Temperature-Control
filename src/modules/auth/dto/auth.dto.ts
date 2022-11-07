@@ -41,8 +41,8 @@ export class UserRegisterDto {
   password: string;
 
   @IsString()
-  @IsNotEmpty()
-  @ApiProperty()
+  @IsOptional()
+  @ApiPropertyOptional()
   confirmPassword: string;
 
   @IsString()

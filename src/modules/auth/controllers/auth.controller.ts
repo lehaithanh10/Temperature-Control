@@ -1,4 +1,11 @@
-import { Controller, Post, Body, HttpStatus, Delete } from "@nestjs/common";
+import {
+  Controller,
+  Post,
+  Body,
+  HttpStatus,
+  Delete,
+  UseInterceptors,
+} from "@nestjs/common";
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { AuthService } from "../providers/auth.service";
 import { UserLoginDto, UserRegisterDto } from "../dto/auth.dto";
@@ -6,9 +13,11 @@ import {
   AuthLoginResponseDto,
   AuthRegisterResponseDto,
 } from "../dto/auth.response.dto";
+import { InjectDataFieldToResponseInterceptor } from "src/interceptors/inject-data-field-to-response.interceptor";
 
 @ApiTags("user.auth")
 @Controller("auth")
+@UseInterceptors(InjectDataFieldToResponseInterceptor)
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
@@ -29,7 +38,7 @@ export class AuthController {
   @Post("register")
   @ApiOperation({
     operationId: "userRegister",
-    description: "Operation for user to register with email password",
+    description: "Operation for user to register with username and password",
     summary: "User register with username and password",
   })
   @ApiResponse({

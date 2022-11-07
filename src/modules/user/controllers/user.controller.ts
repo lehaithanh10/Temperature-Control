@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   HttpStatus,
+  UseInterceptors,
 } from "@nestjs/common";
 import {
   ApiBearerAuth,
@@ -15,6 +16,7 @@ import {
   ApiTags,
 } from "@nestjs/swagger";
 import { User } from "src/decorators/user.decorator";
+import { InjectDataFieldToResponseInterceptor } from "src/interceptors/inject-data-field-to-response.interceptor";
 import { UpdateUserDto } from "../dto/update-user.dto";
 import { UserResponseDto } from "../dto/user.response.dto";
 import { UserService } from "../providers/user.service";
@@ -34,6 +36,7 @@ export class UserController {
     status: HttpStatus.OK,
     type: UserResponseDto,
   })
+  @UseInterceptors(InjectDataFieldToResponseInterceptor)
   getUserFromAccessToken(@User() user: UserResponseDto) {
     return user;
   }

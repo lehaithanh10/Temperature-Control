@@ -1,7 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { ERoleName } from "src/shared/type";
 
-export class UserResponseDto {
+export class UserResponse {
   @ApiProperty()
   username: string;
 
@@ -19,4 +19,9 @@ export class UserResponseDto {
 
   @ApiPropertyOptional()
   phoneNumber?: string;
+}
+
+export class UserResponseDto {
+  @ApiProperty({ type: UserResponse })
+  data: UserResponse;
 }

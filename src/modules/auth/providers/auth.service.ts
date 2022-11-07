@@ -10,7 +10,6 @@ import { ECollectionName, ERoleName } from "src/shared/type";
 import { UserDocument } from "../../user/user.model";
 import { UserLoginDto, UserRegisterDto } from "../dto/auth.dto";
 import * as bcrypt from "bcrypt";
-import * as _ from "lodash";
 const jwt = require("jsonwebtoken");
 
 @Injectable()
@@ -20,7 +19,7 @@ export class AuthService {
     private readonly userModel: Model<UserDocument>
   ) {}
   async register(data: UserRegisterDto) {
-    if (data.password !== data.confirmPassword) {
+    if (data.confirmPassword && data.password !== data.confirmPassword) {
       throw new BadRequestException({
         message: "Password and confirm password not match",
       });
@@ -43,15 +42,12 @@ export class AuthService {
         password: bcrypt.hashSync(data.password, bcrypt.genSaltSync()),
       });
 
-      return _.omit(
-        {
-          accessToken: this.getToken({
-            userId: newUser.id,
-            role: newUser.role,
-          }),
-        },
-        ["password"]
-      );
+      return {
+        accessToken: this.getToken({
+          userId: newUser.id,
+          role: newUser.role,
+        }),
+      };
     }
   }
 
