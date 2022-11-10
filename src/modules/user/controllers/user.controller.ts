@@ -1,11 +1,9 @@
 import {
   Controller,
   Get,
-  Post,
   Body,
   Patch,
   Param,
-  Delete,
   HttpStatus,
   UseInterceptors,
   UseGuards,
@@ -18,12 +16,13 @@ import {
 } from "@nestjs/swagger";
 import { User } from "src/decorators/user.decorator";
 import { UpdateUserDto } from "../dto/update-user.dto";
-import { UserResponseDto } from "../dto/user.response.dto";
+import { UserResponse, UserResponseDto } from "../dto/user.response.dto";
 import { UserService } from "../providers/user.service";
 import { RolesGuard } from "../../../guards/role.guard";
 import { Roles } from "src/decorators/role.decorator";
 import { ERoleName } from "src/shared/type";
 import { CheckUserIdAndUserFromTokenInterceptor } from "src/interceptors/user/check-userId-and-token.interceptor";
+import { InjectDataFieldToResponseInterceptor } from "src/interceptors/inject-data-field-to-response.interceptor";
 @Controller("user")
 @ApiTags("user.info")
 @ApiBearerAuth()
@@ -42,8 +41,8 @@ export class UserController {
     status: HttpStatus.OK,
     type: UserResponseDto,
   })
-  // @UseInterceptors(InjectDataFieldToResponseInterceptor)
-  getUserFromAccessToken(@User() user: UserResponseDto) {
+  @UseInterceptors(InjectDataFieldToResponseInterceptor)
+  getUserFromAccessToken(@User() user: UserResponse) {
     return user;
   }
 
@@ -56,6 +55,7 @@ export class UserController {
   })
   @ApiResponse({
     status: HttpStatus.OK,
+    type: UserResponseDto,
   })
   @UseInterceptors(CheckUserIdAndUserFromTokenInterceptor)
   updateUser(

@@ -45,6 +45,12 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
+## Running deploy
+
+```bash
+    git push -f heroku HEAD:master
+```
+
 ## Test
 
 ```bash

@@ -1,26 +1,47 @@
 import { Injectable } from "@nestjs/common";
+import { InjectModel } from "@nestjs/mongoose";
+import { Model } from "mongoose";
+import { ECollectionName } from "src/shared/type";
 import { CreateGardenDto } from "./dto/create-garden.dto";
 import { UpdateGardenDto } from "./dto/update-garden.dto";
+import { GardenDocument } from "./garden.model";
 
 @Injectable()
 export class GardenService {
-  create(createGardenDto: CreateGardenDto) {
-    return "This action adds a new garden";
+  constructor(
+    @InjectModel(ECollectionName.GARDENS)
+    private readonly gardenModel: Model<GardenDocument>
+  ) {}
+
+  createNewGarden(userId: string, createGardenDto: CreateGardenDto) {
+    return this.gardenModel.create({
+      userId,
+      name: createGardenDto.name,
+      address: createGardenDto.address,
+    });
   }
 
-  findAll() {
-    return `This action returns all garden`;
+  findAllUserGarden(userId: string) {
+    return this.gardenModel.find({
+      userId,
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} garden`;
+  findOneGarden(gardenId: string) {
+    return this.gardenModel.findOne({
+      _id: gardenId,
+    });
   }
 
-  update(id: number, updateGardenDto: UpdateGardenDto) {
-    return `This action updates a #${id} garden`;
+  updateGarden(gardenId: string, updateGardenDto: UpdateGardenDto) {
+    return this.gardenModel.findOneAndUpdate(
+      { _id: gardenId },
+      updateGardenDto,
+      { new: true }
+    );
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} garden`;
+  removeGarden(gardenId: string) {
+    return this.gardenModel.deleteOne({ _id: gardenId });
   }
 }
