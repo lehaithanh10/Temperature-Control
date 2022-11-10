@@ -17,7 +17,7 @@ import { InjectDataFieldToResponseInterceptor } from "src/interceptors/inject-da
 
 @ApiTags("user.auth")
 @Controller("auth")
-@UseInterceptors(InjectDataFieldToResponseInterceptor)
+// @UseInterceptors(InjectDataFieldToResponseInterceptor)
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 

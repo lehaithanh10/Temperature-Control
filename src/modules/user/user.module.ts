@@ -3,11 +3,12 @@ import { AuthMiddleware } from "src/middlewares/auth.middleware";
 import { UtilModule } from "../utils/util.module";
 import { UserController } from "./controllers/user.controller";
 import { UserService } from "./providers/user.service";
+import { UserCoreModule } from "./user.core.module";
 
 @Module({
   controllers: [UserController],
   providers: [UserService],
-  imports: [UtilModule],
+  imports: [UtilModule, UserCoreModule],
 })
 export class UserModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

@@ -2,6 +2,7 @@ import { NestFactory } from "@nestjs/core";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import { AppModule } from "./app.module";
 import { ValidationPipe } from "@nestjs/common";
+import { InjectDataFieldToResponseInterceptor } from "./interceptors/inject-data-field-to-response.interceptor";
 
 async function bootstrap() {
   console.log(process.env.MONGODB_DATABASE_URL);
@@ -12,6 +13,7 @@ async function bootstrap() {
   app.setGlobalPrefix(process.env.APP_BASE_URL);
   app.enableCors();
   app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalInterceptors(new InjectDataFieldToResponseInterceptor());
 
   const options = new DocumentBuilder()
     .setTitle("Temperature Control API")

@@ -8,6 +8,7 @@ import {
   Delete,
   HttpStatus,
   UseInterceptors,
+  UseGuards,
 } from "@nestjs/common";
 import {
   ApiBearerAuth,
@@ -16,16 +17,21 @@ import {
   ApiTags,
 } from "@nestjs/swagger";
 import { User } from "src/decorators/user.decorator";
-import { InjectDataFieldToResponseInterceptor } from "src/interceptors/inject-data-field-to-response.interceptor";
 import { UpdateUserDto } from "../dto/update-user.dto";
 import { UserResponseDto } from "../dto/user.response.dto";
 import { UserService } from "../providers/user.service";
-
+import { RolesGuard } from "../../../guards/role.guard";
+import { Roles } from "src/decorators/role.decorator";
+import { ERoleName } from "src/shared/type";
+import { CheckUserIdAndUserFromTokenInterceptor } from "src/interceptors/user/check-userId-and-token.interceptor";
 @Controller("user")
 @ApiTags("user.info")
 @ApiBearerAuth()
+@UseGuards(RolesGuard)
 export class UserController {
   constructor(private readonly userService: UserService) {}
+
+  @Roles(ERoleName.USERS)
   @Get("user-info")
   @ApiOperation({
     operationId: "getUserInfo",
@@ -36,20 +42,28 @@ export class UserController {
     status: HttpStatus.OK,
     type: UserResponseDto,
   })
-  @UseInterceptors(InjectDataFieldToResponseInterceptor)
+  // @UseInterceptors(InjectDataFieldToResponseInterceptor)
   getUserFromAccessToken(@User() user: UserResponseDto) {
     return user;
   }
 
-  // @Get(":id")
-  // findOne(@Param("id") id: string) {
-  //   return this.userService.findOne(+id);
-  // }
-
-  // @Patch(":id")
-  // update(@Param("id") id: string, @Body() updateUserDto: UpdateUserDto) {
-  //   return this.userService.update(+id, updateUserDto);
-  // }
+  @Roles(ERoleName.USERS)
+  @Patch(":userId")
+  @ApiOperation({
+    operationId: "UpdateUserInfo",
+    description: "Operation to update user info",
+    summary: "Update user info",
+  })
+  @ApiResponse({
+    status: HttpStatus.OK,
+  })
+  @UseInterceptors(CheckUserIdAndUserFromTokenInterceptor)
+  updateUser(
+    @Param("userId") userId: string,
+    @Body() updateUserDto: UpdateUserDto
+  ) {
+    return this.userService.updateUser(userId, updateUserDto);
+  }
 
   // @Delete(":id")
   // remove(@Param("id") id: string) {
