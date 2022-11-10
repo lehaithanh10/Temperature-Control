@@ -1,26 +1,44 @@
 import { Injectable } from "@nestjs/common";
+import { InjectModel } from "@nestjs/mongoose";
+import { Model } from "mongoose";
+import { ECollectionName } from "src/shared/type";
+import { DeviceDocument } from "./device.model";
 import { CreateDeviceDto } from "./dto/create-device.dto";
 import { UpdateDeviceDto } from "./dto/update-device.dto";
 
 @Injectable()
 export class DeviceService {
-  create(createDeviceDto: CreateDeviceDto) {
-    return "This action adds a new device";
+  constructor(
+    @InjectModel(ECollectionName.DEVICES)
+    private readonly deviceModel: Model<DeviceDocument>
+  ) {}
+
+  addNewDeviceToGarden(gardenId: string, createDeviceDto: CreateDeviceDto) {
+    return this.deviceModel.create({
+      gardenId,
+      ...createDeviceDto,
+    });
   }
 
-  findAll() {
-    return `This action returns all device`;
+  findAllDeviceInGarden(gardenId: string) {
+    return this.deviceModel.find({ gardenId });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} device`;
+  findOneDeviceInGarden(deviceId: string) {
+    return this.deviceModel.findOne({
+      _id: deviceId,
+    });
   }
 
-  update(id: number, updateDeviceDto: UpdateDeviceDto) {
-    return `This action updates a #${id} device`;
+  updateDevice(deviceId: string, updateDeviceDto: UpdateDeviceDto) {
+    return this.deviceModel.findOneAndUpdate(
+      { _id: deviceId },
+      updateDeviceDto,
+      { new: true }
+    );
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} device`;
+  removeDevice(gardenId: string) {
+    return this.deviceModel.deleteOne({ _id: gardenId });
   }
 }

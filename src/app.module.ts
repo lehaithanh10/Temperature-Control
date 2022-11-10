@@ -15,7 +15,7 @@ import { UserModule } from "./modules/user/user.module";
   imports: [
     UserModule,
     GardenModule,
-    // DeviceModule,
+    DeviceModule,
     // ActionHistoryModule,
     // MeasureDataModule,
     AuthModule,

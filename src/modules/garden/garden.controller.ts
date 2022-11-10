@@ -14,7 +14,6 @@ import { CreateGardenDto } from "./dto/create-garden.dto";
 import { UpdateGardenDto } from "./dto/update-garden.dto";
 import {
   ApiBearerAuth,
-  ApiBody,
   ApiOperation,
   ApiResponse,
   ApiTags,
