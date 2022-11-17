@@ -40,6 +40,9 @@ export class AuthService {
         username: data.username,
         role: data.role,
         password: bcrypt.hashSync(data.password, bcrypt.genSaltSync()),
+        address: data.address,
+        phoneNumber: data.phoneNumber,
+        name: data.name,
       });
 
       return {
