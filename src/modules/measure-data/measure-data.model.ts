@@ -8,6 +8,9 @@ export class MeasureDataDocument extends BaseDocument {
   deviceId: string;
 
   @Prop({ required: true })
+  gardenId: string;
+
+  @Prop({ required: true })
   temperature: number;
 
   @Prop({ required: true })

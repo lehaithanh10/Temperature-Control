@@ -1,4 +1,4 @@
 import { PartialType } from "@nestjs/mapped-types";
-import { CreateMeasureDatumDto } from "./create-measure-datum.dto";
+import { CreateMeasureDataDto } from "./create-measure-data.dto";
 
-export class UpdateMeasureDatumDto extends PartialType(CreateMeasureDatumDto) {}
+export class UpdateMeasureDatumDto extends PartialType(CreateMeasureDataDto) {}

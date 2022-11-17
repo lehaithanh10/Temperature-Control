@@ -1,22 +1,22 @@
 import { Module } from "@nestjs/common";
 import { MongooseModule } from "@nestjs/mongoose";
 import { ECollectionName } from "src/shared/type";
-import { ActionHistoryDocument } from "./action-history.model";
+import { ActionDocument } from "./action.model";
 
 @Module({
   imports: [
     MongooseModule.forFeature([
       {
-        name: ECollectionName.ACTION_HISTORY,
-        schema: ActionHistoryDocument.schema,
+        name: ECollectionName.ACTION,
+        schema: ActionDocument.schema,
       },
     ]),
   ],
   exports: [
     MongooseModule.forFeature([
       {
-        name: ECollectionName.ACTION_HISTORY,
-        schema: ActionHistoryDocument.schema,
+        name: ECollectionName.ACTION,
+        schema: ActionDocument.schema,
       },
     ]),
   ],

@@ -13,11 +13,9 @@ import {
   AuthLoginResponseDto,
   AuthRegisterResponseDto,
 } from "../dto/auth.response.dto";
-import { InjectDataFieldToResponseInterceptor } from "src/interceptors/inject-data-field-to-response.interceptor";
 
 @ApiTags("user.auth")
 @Controller("auth")
-// @UseInterceptors(InjectDataFieldToResponseInterceptor)
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 

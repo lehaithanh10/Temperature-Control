@@ -41,7 +41,6 @@ export class UserController {
     status: HttpStatus.OK,
     type: UserResponseDto,
   })
-  @UseInterceptors(InjectDataFieldToResponseInterceptor)
   getUserFromAccessToken(@User() user: UserResponse) {
     return user;
   }

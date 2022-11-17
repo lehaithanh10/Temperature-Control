@@ -1,15 +1,43 @@
 import { Injectable } from "@nestjs/common";
-import { CreateMeasureDatumDto } from "./dto/create-measure-datum.dto";
+import { InjectModel } from "@nestjs/mongoose";
+import { Model } from "mongoose";
+import { ECollectionName } from "src/shared/type";
+import { CreateMeasureDataDto } from "./dto/create-measure-data.dto";
+import { FilterMeasureDataDto } from "./dto/filter-measure-data.dto";
 import { UpdateMeasureDatumDto } from "./dto/update-measure-datum.dto";
+import { MeasureDataDocument } from "./measure-data.model";
 
 @Injectable()
 export class MeasureDataService {
-  create(createMeasureDatumDto: CreateMeasureDatumDto) {
-    return "This action adds a new measureDatum";
+  constructor(
+    @InjectModel(ECollectionName.MEASURE_DATA)
+    private readonly measureDataModel: Model<MeasureDataDocument>
+  ) {}
+
+  pushGardenMeasureData(
+    gardenId: string,
+    deviceId: string,
+    createMeasureDataDto: CreateMeasureDataDto
+  ) {
+    return this.measureDataModel.create({
+      gardenId,
+      deviceId,
+      ...createMeasureDataDto,
+    });
   }
 
-  findAll() {
-    return `This action returns all measureData`;
+  filterGardenMeasureData(filterData: FilterMeasureDataDto) {
+    const mongoFilter = {
+      createdAt: {
+        ...(filterData.from ? { $gte: new Date(filterData.from) } : {}),
+        ...(filterData.to ? { $lte: new Date(filterData.to) } : {}),
+      },
+      gardenId: filterData.gardenId,
+    };
+
+    console.log(mongoFilter);
+
+    return this.measureDataModel.find(mongoFilter);
   }
 
   findOne(id: number) {
