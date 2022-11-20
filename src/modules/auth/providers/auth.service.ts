@@ -62,9 +62,7 @@ export class AuthService {
 
     if (!user) {
       throw new NotFoundException({
-        data: {
-          message: "User was not existed in system",
-        },
+        message: "User did not existed in system",
       });
     }
 
