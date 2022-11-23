@@ -22,7 +22,7 @@ export class UserService {
 
   async updateUser(userId: string, updateUserDto: UpdateUserDto) {
     const user = await this.userModel.findOneAndUpdate(
-      { userId },
+      { _id: userId },
       updateUserDto,
       { new: true }
     );

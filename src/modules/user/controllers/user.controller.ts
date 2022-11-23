@@ -22,7 +22,6 @@ import { RolesGuard } from "../../../guards/role.guard";
 import { Roles } from "src/decorators/role.decorator";
 import { ERoleName } from "src/shared/type";
 import { CheckUserIdAndUserFromTokenInterceptor } from "src/interceptors/user/check-userId-and-token.interceptor";
-import { InjectDataFieldToResponseInterceptor } from "src/interceptors/inject-data-field-to-response.interceptor";
 @Controller("user")
 @ApiTags("user.info")
 @ApiBearerAuth()
