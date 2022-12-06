@@ -1,6 +1,7 @@
 import { Prop, Schema } from "@nestjs/mongoose";
 import { BaseDocument } from "src/shared/mongoose/base.document";
 import { DefaultSchemaOptions } from "src/shared/mongoose/schema-options";
+import { EDeviceType } from "src/shared/type";
 
 @Schema(DefaultSchemaOptions)
 export class DeviceDocument extends BaseDocument {
@@ -15,4 +16,7 @@ export class DeviceDocument extends BaseDocument {
 
   @Prop()
   status?: string;
+
+  @Prop({ required: true, enum: EDeviceType })
+  type: EDeviceType;
 }
