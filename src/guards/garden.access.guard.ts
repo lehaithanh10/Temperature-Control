@@ -19,9 +19,9 @@ export class GardenAccessGuard implements CanActivate {
     const req = ctx.switchToHttp().getRequest();
     const userId = req.user.id;
     const gardenId = req.params.gardenId;
-    const userGarden = await this.gardenModel.findOne({ userId });
-    if (!userGarden || String(userGarden.id) !== gardenId) {
-      throw new ForbiddenException("Cannot access the garden");
+    const gardenInfo = await this.gardenModel.findById(gardenId);
+    if (!gardenInfo || String(gardenInfo.userId) !== userId) {
+      throw new ForbiddenException("Can not access the garden");
     }
     return true;
   }
