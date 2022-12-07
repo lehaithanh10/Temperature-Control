@@ -1,11 +1,10 @@
 import { NestFactory } from "@nestjs/core";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
-import { AppModule } from "./app.module";
 import { ValidationPipe } from "@nestjs/common";
 import { InjectDataFieldToResponseInterceptor } from "./interceptors/inject-data-field-to-response.interceptor";
+import { AppModule } from "./app.module";
 
 async function bootstrap() {
-  console.log(process.env.MONGODB_DATABASE_URL);
   const app = await NestFactory.create(AppModule, {
     logger: console,
   });

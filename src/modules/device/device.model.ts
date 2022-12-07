@@ -9,6 +9,9 @@ export class DeviceDocument extends BaseDocument {
   gardenId: string;
 
   @Prop({ required: true })
+  userId: string;
+
+  @Prop({ required: true })
   name: string;
 
   @Prop()

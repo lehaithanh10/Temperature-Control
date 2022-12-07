@@ -31,6 +31,10 @@ export class DeviceService {
     return this.deviceModel.find({ gardenId });
   }
 
+  findAllDeviceOfUser(userId: string) {
+    return this.deviceModel.find({ userId });
+  }
+
   findOneDeviceInGarden(deviceId: string) {
     return this.deviceModel.findOne({
       _id: deviceId,
