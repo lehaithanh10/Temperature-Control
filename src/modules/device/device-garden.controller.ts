@@ -45,9 +45,14 @@ export class DeviceGardenController {
   })
   addNewDeviceToGarden(
     @Body() createDeviceDto: CreateDeviceDto,
-    @Param("gardenId") gardenId: string
+    @Param("gardenId") gardenId: string,
+    @User("userId") userId: string
   ) {
-    return this.deviceService.addNewDeviceToGarden(gardenId, createDeviceDto);
+    return this.deviceService.addNewDeviceToGarden(
+      userId,
+      gardenId,
+      createDeviceDto
+    );
   }
 
   @Get()

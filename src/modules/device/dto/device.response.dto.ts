@@ -15,6 +15,9 @@ export class DeviceResponse {
 
   @ApiPropertyOptional()
   status?: string;
+
+  @ApiProperty()
+  userId?: string;
 }
 
 export class DeviceResponseDto {

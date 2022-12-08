@@ -17,8 +17,13 @@ export class DeviceService {
     private readonly deviceModel: Model<DeviceDocument>
   ) {}
 
-  addNewDeviceToGarden(gardenId: string, createDeviceDto: CreateDeviceDto) {
+  addNewDeviceToGarden(
+    userId: string,
+    gardenId: string,
+    createDeviceDto: CreateDeviceDto
+  ) {
     return this.deviceModel.create({
+      userId,
       gardenId,
       ...createDeviceDto,
       ...((createDeviceDto.type = EDeviceType.LIGHT_BULB)
