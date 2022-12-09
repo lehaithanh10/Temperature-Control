@@ -35,8 +35,6 @@ export class MeasureDataService {
       gardenId: filterData.gardenId,
     };
 
-    console.log(mongoFilter);
-
     return this.measureDataModel.find(mongoFilter);
   }
 

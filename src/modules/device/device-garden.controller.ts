@@ -57,20 +57,6 @@ export class DeviceGardenController {
 
   @Get()
   @ApiOperation({
-    operationId: "UserGetAllDevice",
-    description: "Operation for user to get all device info",
-    summary: "User get all device",
-  })
-  @ApiResponse({
-    status: HttpStatus.OK,
-    type: ListDeviceResponseDto,
-  })
-  findAllDeviceOfUser(@User("userId") userId: string) {
-    return this.deviceService.findAllDeviceOfUser(userId);
-  }
-
-  @Get()
-  @ApiOperation({
     operationId: "UserGetAllDeviceFromGarden",
     description: "Operation for user to get all device info from garden",
     summary: "User get all device from garden",
