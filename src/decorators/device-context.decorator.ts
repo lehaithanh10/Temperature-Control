@@ -1,13 +1,13 @@
 import { createParamDecorator, ExecutionContext } from "@nestjs/common";
 
-export const GardenContext = createParamDecorator(
+export const DeviceContext = createParamDecorator(
   (data, ctx: ExecutionContext) => {
     const req = ctx.switchToHttp().getRequest();
     switch (data) {
-      case "gardenId":
-        return req.garden.id;
+      case "deviceId":
+        return req.device.id;
       default:
-        return req.garden;
+        return req.device;
     }
   }
 );

@@ -17,7 +17,6 @@ export class InjectDataFieldToResponseInterceptor implements NestInterceptor {
   }
 
   async injectData(data: Record<string, unknown> | null) {
-    console.log(data);
     return { data };
   }
 }

@@ -6,9 +6,14 @@ import { DeviceCoreModule } from "./device.core.module";
 import { UtilModule } from "../utils/util.module";
 import { GardenCoreModule } from "../garden/garden.core.module";
 import { DeviceController } from "./device.controller";
+import { DeviceActionController } from "./device-action.controller";
 
 @Module({
-  controllers: [DeviceGardenController, DeviceController],
+  controllers: [
+    DeviceGardenController,
+    DeviceController,
+    DeviceActionController,
+  ],
   providers: [DeviceService],
   imports: [DeviceCoreModule, UtilModule, GardenCoreModule],
 })
@@ -16,6 +21,10 @@ export class DeviceModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(AuthMiddleware)
-      .forRoutes(DeviceGardenController, DeviceController);
+      .forRoutes(
+        DeviceGardenController,
+        DeviceController,
+        DeviceActionController
+      );
   }
 }

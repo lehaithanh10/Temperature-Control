@@ -9,7 +9,7 @@ import { Model } from "mongoose";
 import { IAuthorizedRequest } from "src/modules/auth/auth.type";
 import { DeviceDocument } from "src/modules/device/device.model";
 import { GardenDocument } from "src/modules/garden/garden.model";
-import { ECollectionName, ERoleName } from "src/shared/type";
+import { ECollectionName } from "src/shared/type";
 
 @Injectable()
 export class InjectGardenContextInterceptor implements NestInterceptor {
@@ -23,10 +23,6 @@ export class InjectGardenContextInterceptor implements NestInterceptor {
     const request = ctx.switchToHttp().getRequest<IAuthorizedRequest>();
 
     let garden: GardenDocument | null = null;
-
-    if (request.user && request.user.role === ERoleName.USERS) {
-      garden = await this.gardenModel.findOne({ userId: request.user.id });
-    }
 
     if (request.params?.gardenId || request.params?.deviceId) {
       garden = !!request.params?.gardenId

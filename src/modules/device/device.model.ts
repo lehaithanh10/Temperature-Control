@@ -1,7 +1,7 @@
 import { Prop, Schema } from "@nestjs/mongoose";
 import { BaseDocument } from "src/shared/mongoose/base.document";
 import { DefaultSchemaOptions } from "src/shared/mongoose/schema-options";
-import { EDeviceType } from "src/shared/type";
+import { EDeviceType, ELightBulbStatus } from "src/shared/type";
 
 @Schema(DefaultSchemaOptions)
 export class DeviceDocument extends BaseDocument {
@@ -18,7 +18,7 @@ export class DeviceDocument extends BaseDocument {
   description?: string;
 
   @Prop()
-  status?: string;
+  status?: ELightBulbStatus;
 
   @Prop({ required: true, enum: EDeviceType })
   type: EDeviceType;

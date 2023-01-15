@@ -2,6 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { ECollectionName } from "src/shared/type";
+import { DeviceDocument } from "../device/device.model";
 import { CreateMeasureDataDto } from "./dto/create-measure-data.dto";
 import { FilterMeasureDataDto } from "./dto/filter-measure-data.dto";
 import { UpdateMeasureDatumDto } from "./dto/update-measure-datum.dto";
@@ -11,17 +12,20 @@ import { MeasureDataDocument } from "./measure-data.model";
 export class MeasureDataService {
   constructor(
     @InjectModel(ECollectionName.MEASURE_DATA)
-    private readonly measureDataModel: Model<MeasureDataDocument>
+    private readonly measureDataModel: Model<MeasureDataDocument>,
+    @InjectModel(ECollectionName.DEVICES)
+    private readonly deviceModel: Model<DeviceDocument>
   ) {}
 
-  pushGardenMeasureData(
-    gardenId: string,
+  async pushGardenMeasureData(
     deviceId: string,
     createMeasureDataDto: CreateMeasureDataDto
   ) {
+    const device = await this.deviceModel.findById(deviceId);
+
     return this.measureDataModel.create({
-      gardenId,
       deviceId,
+      gardenId: device.gardenId,
       ...createMeasureDataDto,
     });
   }

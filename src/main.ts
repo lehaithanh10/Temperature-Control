@@ -3,6 +3,7 @@ import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import { ValidationPipe } from "@nestjs/common";
 import { InjectDataFieldToResponseInterceptor } from "./interceptors/inject-data-field-to-response.interceptor";
 import { AppModule } from "./app.module";
+import { MicroserviceOptions, Transport } from "@nestjs/microservices";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -30,6 +31,18 @@ async function bootstrap() {
     customSiteTitle: "Temperature Control service",
   });
   await app.listen(process.env.PORT || 3003);
+
+  const mqttApp = await NestFactory.createMicroservice<MicroserviceOptions>(
+    AppModule,
+    {
+      transport: Transport.MQTT,
+      options: {
+        url: "mqtt://broker.hivemq.com:1883",
+      },
+    }
+  );
+
+  await mqttApp.listen();
 }
 
 bootstrap()
@@ -42,6 +55,7 @@ bootstrap()
         process.env.PORT || 3003
       } with baseURL=${process.env.DOC_BASE_URL}`
     );
+    console.info("MQTT client connected");
   })
   .catch((e) => {
     console.error(e);
