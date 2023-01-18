@@ -12,4 +12,7 @@ export class GardenDocument extends BaseDocument {
 
   @Prop()
   address?: string;
+
+  @Prop({ required: true, default: 0 })
+  deviceCount: number; // sensor, light bulb
 }

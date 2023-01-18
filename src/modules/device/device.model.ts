@@ -17,7 +17,7 @@ export class DeviceDocument extends BaseDocument {
   @Prop()
   description?: string;
 
-  @Prop()
+  @Prop({ default: ELightBulbStatus.OFF })
   status?: ELightBulbStatus;
 
   @Prop({ required: true, enum: EDeviceType })

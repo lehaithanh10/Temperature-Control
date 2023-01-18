@@ -16,9 +16,12 @@ export enum ERoleName {
 export enum EDeviceType {
   SENSOR = "sensor",
   LIGHT_BULB = "light-bulb",
+  ESP = "esp",
 }
 
 export enum ELightBulbStatus {
   ON = "ON",
   OFF = "OFF",
 }
+
+export const MAX_DEVICE_CAN_CONNECT_ONE_ESP = 3;

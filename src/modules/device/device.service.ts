@@ -5,6 +5,7 @@ import {
   ECollectionName,
   EDeviceType,
   ELightBulbStatus,
+  MAX_DEVICE_CAN_CONNECT_ONE_ESP,
 } from "src/shared/type";
 import { MQTTUtil } from "../utils/mqtt/mqtt.util";
 import { MQTTTopic } from "../utils/mqtt/types";
@@ -14,12 +15,16 @@ import {
   ChangeDeviceStatusDto,
   UpdateDeviceDto,
 } from "./dto/update-device.dto";
+import * as _ from "lodash";
+import { GardenDocument } from "../garden/garden.model";
 
 @Injectable()
 export class DeviceService {
   constructor(
     @InjectModel(ECollectionName.DEVICES)
     private readonly deviceModel: Model<DeviceDocument>,
+    @InjectModel(ECollectionName.GARDENS)
+    private readonly gardenModel: Model<GardenDocument>,
     private readonly mqttUtil: MQTTUtil
   ) {}
 
@@ -28,6 +33,35 @@ export class DeviceService {
     gardenId: string,
     createDeviceDto: CreateDeviceDto
   ) {
+    if (createDeviceDto.type !== EDeviceType.ESP) {
+      const espDevices = await this.deviceModel.find({
+        gardenId,
+        type: EDeviceType.ESP,
+      });
+
+      console.log("espDevices here", espDevices);
+
+      if (_.isEmpty(espDevices)) {
+        throw new BadRequestException({
+          message:
+            "This garden do not have esp. Please contact service provider to set up",
+        });
+      }
+
+      const garden = await this.gardenModel.findById(gardenId);
+
+      if (
+        garden.deviceCount >
+          MAX_DEVICE_CAN_CONNECT_ONE_ESP * espDevices.length ||
+        garden.deviceCount ===
+          MAX_DEVICE_CAN_CONNECT_ONE_ESP * espDevices.length
+      ) {
+        throw new BadRequestException({
+          message:
+            "Can not add more device, Please contact your service provider",
+        });
+      }
+    }
     const newDevice = await this.deviceModel.create({
       userId,
       gardenId,
@@ -36,6 +70,12 @@ export class DeviceService {
         ? { status: ELightBulbStatus.OFF }
         : {}),
     });
+
+    if (newDevice.type !== EDeviceType.ESP) {
+      await this.gardenModel.findByIdAndUpdate(gardenId, {
+        $inc: { deviceCount: 1 },
+      });
+    }
 
     this.mqttUtil.publish({ deviceId: newDevice.id }, MQTTTopic.NEW_DEVICE);
 
