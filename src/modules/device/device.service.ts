@@ -39,8 +39,6 @@ export class DeviceService {
         type: EDeviceType.ESP,
       });
 
-      console.log("espDevices here", espDevices);
-
       if (_.isEmpty(espDevices)) {
         throw new BadRequestException({
           message:
