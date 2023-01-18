@@ -51,6 +51,14 @@ $ npm run start:prod
     git push -f heroku HEAD:master
 ```
 
+## Testing with MQTT
+
+```1) Connect to broker: 'mqtt://broker.hivemq.com:1883'
+   2) Subscribe topic: new/device to get packet {deviceId: string} when user add new device (light bulb, sensor) to garden
+   3) Send packet with topic: measure_data/sensor/{id sensor} with packet data {temperature: number, moisture: number} to update measure data of garden from sensor
+   4) Subscribe topic: device/light-bulb/{id light-bulb} to get packet {isOn: boolean} when user turn on/off device (light bulb)
+```
+
 ## Test
 
 ```bash
