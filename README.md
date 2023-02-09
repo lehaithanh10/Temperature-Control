@@ -57,6 +57,7 @@ $ npm run start:prod
    2) Subscribe topic: new/device to get packet {deviceId: string} when user add new device (light bulb, sensor) to garden
    3) Send packet with topic: measure_data/sensor/{id sensor} with packet data {temperature: number, moisture: number} to update measure data of garden from sensor
    4) Subscribe topic: device/light-bulb/{id light-bulb} to get packet {isOn: boolean} when user turn on/off device (light bulb)
+   5) Subscribe topic: waring/user/{user id} to get packet {temperature: number, moisture: number, warningType: {temperature: enum(unhappy, dead), moisture: enum(unhappy, dead) }} to receive warning when temperature or moisture bypass the threshold of good condition
 ```
 
 ## Test
