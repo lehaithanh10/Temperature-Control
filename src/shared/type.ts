@@ -24,4 +24,32 @@ export enum ELightBulbStatus {
   OFF = "OFF",
 }
 
+export const thresholdNumber = {
+  temperature: {
+    high: {
+      unhappy: 30, // plant stop growing
+      dead: 40, // plant will dead
+    },
+    low: {
+      unhappy: 5, // plant stop growing
+      dead: 0, // plant will dead
+    },
+  },
+  moisture: {
+    high: {
+      unhappy: 85, // plant stop growing
+      dead: 95, // plant will dead
+    },
+    low: {
+      unhappy: 40, // plant stop growing
+      dead: 20, // plant will dead
+    },
+  },
+};
+
+export enum EWaringType {
+  UNHAPPY = "unhappy",
+  DEAD = "dead",
+}
+
 export const MAX_DEVICE_CAN_CONNECT_ONE_ESP = 3;

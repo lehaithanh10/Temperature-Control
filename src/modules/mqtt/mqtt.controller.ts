@@ -1,6 +1,5 @@
-import { Controller, Inject } from "@nestjs/common";
+import { Controller } from "@nestjs/common";
 import {
-  ClientProxy,
   Ctx,
   MessagePattern,
   MqttContext,
@@ -15,11 +14,23 @@ export class MQTTController {
   constructor(private readonly measureDataUtil: MeasureDataUtil) {}
 
   @MessagePattern(MQTTTopic.GET_MEASURE_DATA)
-  async getNotifications(
+  async getMeasureDataNotifications(
     @Payload() measureData: CreateMeasureDataDto,
     @Ctx() context: MqttContext
   ) {
     const deviceId = context.getTopic().split("/")[2];
+
+    console.info(
+      "MQTT package received",
+      JSON.stringify(
+        {
+          topic: context.getTopic(),
+          payload: measureData,
+        },
+        null,
+        2
+      )
+    );
 
     await this.measureDataUtil.pushGardenMeasureData(deviceId, measureData);
   }

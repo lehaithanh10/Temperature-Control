@@ -6,7 +6,7 @@ export class OutboundResponseSerializer implements Serializer {
 
   serialize(value: any): OutgoingResponse {
     this.logger.debug(
-      `-->> Serializing outbound response: \n${JSON.stringify(value)}`
+      `-->> Serializing MQTT response: \n${JSON.stringify(value, null, 2)}`
     );
     return value.data;
   }
