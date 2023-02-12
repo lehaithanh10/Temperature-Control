@@ -7,6 +7,6 @@ export class MQTTUtil {
   }
 
   publish(data: object, topic: string) {
-    this.client.emit(topic, JSON.stringify(data));
+    this.client.emit(topic, data);
   }
 }
