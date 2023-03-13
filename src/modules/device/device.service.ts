@@ -73,9 +73,11 @@ export class DeviceService {
       await this.gardenModel.findByIdAndUpdate(gardenId, {
         $inc: { deviceCount: 1 },
       });
+      this.mqttUtil.publish(
+        { deviceId: newDevice.id, deviceType: newDevice.type },
+        MQTTTopic.NEW_DEVICE
+      );
     }
-
-    this.mqttUtil.publish({ deviceId: newDevice.id }, MQTTTopic.NEW_DEVICE);
 
     return newDevice;
   }

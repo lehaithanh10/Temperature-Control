@@ -13,7 +13,7 @@ import { MQTTTopic } from "../utils/mqtt/types";
 export class MQTTController {
   constructor(private readonly measureDataUtil: MeasureDataUtil) {}
 
-  @MessagePattern(MQTTTopic.GET_MEASURE_DATA)
+  @MessagePattern(MQTTTopic.MEASURE_DATA)
   async getMeasureDataNotifications(
     @Payload() measureData: CreateMeasureDataDto,
     @Ctx() context: MqttContext
